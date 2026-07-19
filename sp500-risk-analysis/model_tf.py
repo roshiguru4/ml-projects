@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -5,7 +7,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, confusion_matrix
 import tensorflow as tf
 
-df = pd.read_csv("sp500-risk-analysis/sp500_data.csv")
+CSV_PATH = os.path.join(os.path.dirname(__file__), "sp500_data.csv")
+df = pd.read_csv(CSV_PATH)
 
 THRESHOLDS = {
     'volatility':      (df['volatility'].quantile(0.33),      df['volatility'].quantile(0.66)),
@@ -82,4 +85,4 @@ print(classification_report(y_test, y_pred, target_names=['Buy', 'Hold', 'Sell']
 print("Confusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
 
-model.save("sp500-risk-analysis/risk_model.keras")
+model.save(os.path.join(os.path.dirname(__file__), "risk_model.keras"))

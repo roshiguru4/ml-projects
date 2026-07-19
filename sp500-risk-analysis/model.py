@@ -1,10 +1,13 @@
+import os
+
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import pandas as pd
-import numpy as np  
+import numpy as np
 
-df = pd.read_csv("sp500-risk-analysis/sp500_data.csv")
+CSV_PATH = os.path.join(os.path.dirname(__file__), "sp500_data.csv")
+df = pd.read_csv(CSV_PATH)
 THRESHOLDS = {
     'volatility': (df['volatility'].quantile(0.33), df['volatility'].quantile(0.66)),
     'drawdown': (df['drawdown'].quantile(0.33), df['drawdown'].quantile(0.66)),
@@ -33,7 +36,7 @@ def risk_label(avg):
     else:
         return 2
 df['risk_label'] = df['avg_risk'].apply(risk_label)
-df = df.drop(columns=risk_columns and ['avg_risk'])
+df = df.drop(columns=risk_columns + ['avg_risk'])
 
 # MODEL
 features = ['volatility', 'drawdown', 'beta', 'market_cap', 'pe_ratio',

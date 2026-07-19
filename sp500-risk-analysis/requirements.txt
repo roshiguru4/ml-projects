@@ -1,0 +1,7 @@
+pandas
+numpy
+yfinance
+pyspark
+lxml
+scikit-learn
+tensorflow
